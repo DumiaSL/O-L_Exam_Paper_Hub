@@ -45,6 +45,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'Login_page',
           path: '/loginPage',
           builder: (context, params) => LoginPageWidget(),
+        ),
+        FFRoute(
+          name: 'Forget_Password_page',
+          path: '/forgetPasswordPage',
+          builder: (context, params) => ForgetPasswordPageWidget(),
+        ),
+        FFRoute(
+          name: 'Sign_Up_page',
+          path: '/signUpPage',
+          builder: (context, params) => SignUpPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       urlPathStrategy: UrlPathStrategy.path,

@@ -64,10 +64,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               Align(
                 alignment: AlignmentDirectional(0.0, 0.0),
                 child: Container(
-                  width: 1080.0,
-                  constraints: BoxConstraints(
-                    maxWidth: 500.0,
-                  ),
+                  width: 430.0,
+                  height: 932.0,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -99,12 +97,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         child: Text(
                           'O/L Exam Paper Hub',
                           textAlign: TextAlign.center,
-                          style:
-                              FlutterFlowTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 30.0,
-                                    fontWeight: FontWeight.w800,
-                                  ),
+                          style: FlutterFlowTheme.of(context)
+                              .bodyText1
+                              .override(
+                                fontFamily: 'Montserrat',
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.w800,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context)
+                                        .bodyText1Family),
+                              ),
                         ),
                       ),
                     ],

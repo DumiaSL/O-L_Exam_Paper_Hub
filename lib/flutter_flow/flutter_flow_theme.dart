@@ -3,31 +3,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
-const kThemeModeKey = '__theme_mode__';
-SharedPreferences? _prefs;
+enum DeviceSize {
+  mobile,
+  tablet,
+  desktop,
+}
 
 abstract class FlutterFlowTheme {
-  static Future initialize() async =>
-      _prefs = await SharedPreferences.getInstance();
-  static ThemeMode get themeMode {
-    final darkMode = _prefs?.getBool(kThemeModeKey);
-    return darkMode == null
-        ? ThemeMode.system
-        : darkMode
-            ? ThemeMode.dark
-            : ThemeMode.light;
-  }
-
-  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system
-      ? _prefs?.remove(kThemeModeKey)
-      : _prefs?.setBool(kThemeModeKey, mode == ThemeMode.dark);
+  static DeviceSize deviceSize = DeviceSize.mobile;
 
   static FlutterFlowTheme of(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
-        ? DarkModeTheme()
-        : LightModeTheme();
+    deviceSize = getDeviceSize(context);
+    return LightModeTheme();
   }
 
   late Color primaryColor;
@@ -41,6 +28,7 @@ abstract class FlutterFlowTheme {
 
   late Color primaryBtnText;
   late Color lineColor;
+  late Color customColor1;
 
   String get title1Family => typography.title1Family;
   TextStyle get title1 => typography.title1;
@@ -57,7 +45,22 @@ abstract class FlutterFlowTheme {
   String get bodyText2Family => typography.bodyText2Family;
   TextStyle get bodyText2 => typography.bodyText2;
 
-  Typography get typography => ThemeTypography(this);
+  Typography get typography => {
+        DeviceSize.mobile: MobileTypography(this),
+        DeviceSize.tablet: TabletTypography(this),
+        DeviceSize.desktop: DesktopTypography(this),
+      }[deviceSize]!;
+}
+
+DeviceSize getDeviceSize(BuildContext context) {
+  final width = MediaQuery.of(context).size.width;
+  if (width < 479) {
+    return DeviceSize.mobile;
+  } else if (width < 991) {
+    return DeviceSize.tablet;
+  } else {
+    return DeviceSize.desktop;
+  }
 }
 
 class LightModeTheme extends FlutterFlowTheme {
@@ -72,6 +75,7 @@ class LightModeTheme extends FlutterFlowTheme {
 
   late Color primaryBtnText = Color(0xFFFFFFFF);
   late Color lineColor = Color(0xFFE0E3E7);
+  late Color customColor1 = Color(0xFF2FB73C);
 }
 
 abstract class Typography {
@@ -91,74 +95,172 @@ abstract class Typography {
   TextStyle get bodyText2;
 }
 
-class ThemeTypography extends Typography {
-  ThemeTypography(this.theme);
+class MobileTypography extends Typography {
+  MobileTypography(this.theme);
 
   final FlutterFlowTheme theme;
 
-  String get title1Family => 'Poppins';
+  String get title1Family => 'Montserrat';
   TextStyle get title1 => GoogleFonts.getFont(
-        'Poppins',
+        'Montserrat',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 45.0,
       );
-  String get title2Family => 'Poppins';
+  String get title2Family => 'Montserrat';
   TextStyle get title2 => GoogleFonts.getFont(
-        'Poppins',
+        'Montserrat',
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 32.0,
       );
-  String get title3Family => 'Poppins';
+  String get title3Family => 'Montserrat';
   TextStyle get title3 => GoogleFonts.getFont(
-        'Poppins',
+        'Montserrat',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 24.0,
       );
-  String get subtitle1Family => 'Poppins';
+  String get subtitle1Family => 'Montserrat';
   TextStyle get subtitle1 => GoogleFonts.getFont(
-        'Poppins',
+        'Montserrat',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 22.0,
       );
-  String get subtitle2Family => 'Poppins';
+  String get subtitle2Family => 'Montserrat';
   TextStyle get subtitle2 => GoogleFonts.getFont(
-        'Poppins',
+        'Montserrat',
         color: theme.secondaryText,
         fontWeight: FontWeight.w500,
         fontSize: 16.0,
       );
-  String get bodyText1Family => 'Poppins';
+  String get bodyText1Family => 'Montserrat';
   TextStyle get bodyText1 => GoogleFonts.getFont(
-        'Poppins',
+        'Montserrat',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get bodyText2Family => 'Poppins';
+  String get bodyText2Family => 'Montserrat';
   TextStyle get bodyText2 => GoogleFonts.getFont(
-        'Poppins',
+        'Montserrat',
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
 }
 
-class DarkModeTheme extends FlutterFlowTheme {
-  late Color primaryColor = const Color(0xFF4B39EF);
-  late Color secondaryColor = const Color(0xFF39D2C0);
-  late Color tertiaryColor = const Color(0xFFEE8B60);
-  late Color alternate = const Color(0xFFFF5963);
-  late Color primaryBackground = const Color(0xFF1A1F24);
-  late Color secondaryBackground = const Color(0xFF101213);
-  late Color primaryText = const Color(0xFFFFFFFF);
-  late Color secondaryText = const Color(0xFF95A1AC);
+class TabletTypography extends Typography {
+  TabletTypography(this.theme);
 
-  late Color primaryBtnText = Color(0xFFFFFFFF);
-  late Color lineColor = Color(0xFF22282F);
+  final FlutterFlowTheme theme;
+
+  String get title1Family => 'Montserrat';
+  TextStyle get title1 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.primaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 45.0,
+      );
+  String get title2Family => 'Montserrat';
+  TextStyle get title2 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.secondaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 32.0,
+      );
+  String get title3Family => 'Montserrat';
+  TextStyle get title3 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.primaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 24.0,
+      );
+  String get subtitle1Family => 'Montserrat';
+  TextStyle get subtitle1 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.primaryText,
+        fontWeight: FontWeight.w500,
+        fontSize: 22.0,
+      );
+  String get subtitle2Family => 'Montserrat';
+  TextStyle get subtitle2 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.secondaryText,
+        fontWeight: FontWeight.w500,
+        fontSize: 16.0,
+      );
+  String get bodyText1Family => 'Montserrat';
+  TextStyle get bodyText1 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.primaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 16.0,
+      );
+  String get bodyText2Family => 'Montserrat';
+  TextStyle get bodyText2 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.secondaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 14.0,
+      );
+}
+
+class DesktopTypography extends Typography {
+  DesktopTypography(this.theme);
+
+  final FlutterFlowTheme theme;
+
+  String get title1Family => 'Montserrat';
+  TextStyle get title1 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.primaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 45.0,
+      );
+  String get title2Family => 'Montserrat';
+  TextStyle get title2 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.secondaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 32.0,
+      );
+  String get title3Family => 'Montserrat';
+  TextStyle get title3 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.primaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 24.0,
+      );
+  String get subtitle1Family => 'Montserrat';
+  TextStyle get subtitle1 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.primaryText,
+        fontWeight: FontWeight.w500,
+        fontSize: 22.0,
+      );
+  String get subtitle2Family => 'Montserrat';
+  TextStyle get subtitle2 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.secondaryText,
+        fontWeight: FontWeight.w500,
+        fontSize: 16.0,
+      );
+  String get bodyText1Family => 'Montserrat';
+  TextStyle get bodyText1 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.primaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 16.0,
+      );
+  String get bodyText2Family => 'Montserrat';
+  TextStyle get bodyText2 => GoogleFonts.getFont(
+        'Montserrat',
+        color: theme.secondaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 14.0,
+      );
 }
 
 extension TextStyleHelper on TextStyle {
