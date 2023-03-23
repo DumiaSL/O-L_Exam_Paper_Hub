@@ -481,8 +481,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 25.0, 0.0, 0.0),
                                 child: FFButtonWidget(
-                                  onPressed: () {
-                                    print('Button pressed ...');
+                                  onPressed: () async {
+                                    context.pushNamed('Main_page');
                                   },
                                   text: 'Login',
                                   options: FFButtonOptions(
