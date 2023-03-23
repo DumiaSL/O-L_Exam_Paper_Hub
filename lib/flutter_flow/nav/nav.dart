@@ -65,6 +65,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'Subject_setting_page',
           path: '/subjectSettingPage',
           builder: (context, params) => SubjectSettingPageWidget(),
+        ),
+        FFRoute(
+          name: 'Edit_profile_Page',
+          path: '/editProfilePage',
+          builder: (context, params) => EditProfilePageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       urlPathStrategy: UrlPathStrategy.path,

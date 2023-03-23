@@ -115,99 +115,13 @@ class _MainPageWidgetState extends State<MainPageWidget> {
               Divider(
                 thickness: 4.0,
               ),
-              ListTile(
-                title: Text(
-                  'Edit profile',
-                  style: FlutterFlowTheme.of(context).title3.override(
-                        fontFamily: 'Montserrat',
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w600,
-                        useGoogleFonts: GoogleFonts.asMap().containsKey(
-                            FlutterFlowTheme.of(context).title3Family),
-                      ),
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Color(0xFF303030),
-                  size: 20.0,
-                ),
-                tileColor: Color(0xFFF5F5F5),
-                dense: false,
-              ),
-              Divider(
-                thickness: 2.0,
-              ),
-              ListTile(
-                title: Text(
-                  'Rate Us',
-                  style: FlutterFlowTheme.of(context).title3.override(
-                        fontFamily: 'Montserrat',
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w600,
-                        useGoogleFonts: GoogleFonts.asMap().containsKey(
-                            FlutterFlowTheme.of(context).title3Family),
-                      ),
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Color(0xFF303030),
-                  size: 20.0,
-                ),
-                tileColor: Color(0xFFF5F5F5),
-                dense: false,
-              ),
-              Divider(
-                thickness: 2.0,
-              ),
-              ListTile(
-                title: Text(
-                  'About Us',
-                  style: FlutterFlowTheme.of(context).title3.override(
-                        fontFamily: 'Montserrat',
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w600,
-                        useGoogleFonts: GoogleFonts.asMap().containsKey(
-                            FlutterFlowTheme.of(context).title3Family),
-                      ),
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Color(0xFF303030),
-                  size: 20.0,
-                ),
-                tileColor: Color(0xFFF5F5F5),
-                dense: false,
-              ),
-              Divider(
-                thickness: 2.0,
-              ),
-              ListTile(
-                title: Text(
-                  'Sign out',
-                  style: FlutterFlowTheme.of(context).title3.override(
-                        fontFamily: FlutterFlowTheme.of(context).title3Family,
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w600,
-                        useGoogleFonts: GoogleFonts.asMap().containsKey(
-                            FlutterFlowTheme.of(context).title3Family),
-                      ),
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Color(0xFF303030),
-                  size: 20.0,
-                ),
-                tileColor: Color(0xFFF5F5F5),
-                dense: false,
-              ),
-              Divider(
-                thickness: 2.0,
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 350.0, 0.0, 0.0),
+              InkWell(
+                onTap: () async {
+                  context.pushNamed('Edit_profile_Page');
+                },
                 child: ListTile(
                   title: Text(
-                    'Exit',
+                    'Edit profile',
                     style: FlutterFlowTheme.of(context).title3.override(
                           fontFamily: 'Montserrat',
                           fontSize: 17.0,
@@ -223,6 +137,104 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                   ),
                   tileColor: Color(0xFFF5F5F5),
                   dense: false,
+                ),
+              ),
+              Divider(
+                thickness: 2.0,
+              ),
+              InkWell(
+                onTap: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (alertDialogContext) {
+                      return AlertDialog(
+                        title: Text('Rate Us'),
+                        content: Text('Not yet Published !'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(alertDialogContext),
+                            child: Text('Ok'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: ListTile(
+                  title: Text(
+                    'Rate Us',
+                    style: FlutterFlowTheme.of(context).title3.override(
+                          fontFamily: 'Montserrat',
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.w600,
+                          useGoogleFonts: GoogleFonts.asMap().containsKey(
+                              FlutterFlowTheme.of(context).title3Family),
+                        ),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Color(0xFF303030),
+                    size: 20.0,
+                  ),
+                  tileColor: Color(0xFFF5F5F5),
+                  dense: false,
+                ),
+              ),
+              Divider(
+                thickness: 2.0,
+              ),
+              InkWell(
+                onTap: () async {
+                  context.pushNamed('Login_page');
+                },
+                child: ListTile(
+                  title: Text(
+                    'Sign out',
+                    style: FlutterFlowTheme.of(context).title3.override(
+                          fontFamily: FlutterFlowTheme.of(context).title3Family,
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.w600,
+                          useGoogleFonts: GoogleFonts.asMap().containsKey(
+                              FlutterFlowTheme.of(context).title3Family),
+                        ),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Color(0xFF303030),
+                    size: 20.0,
+                  ),
+                  tileColor: Color(0xFFF5F5F5),
+                  dense: false,
+                ),
+              ),
+              Divider(
+                thickness: 2.0,
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 350.0, 0.0, 0.0),
+                child: InkWell(
+                  onTap: () async {
+                    context.pushNamed('Login_page');
+                  },
+                  child: ListTile(
+                    title: Text(
+                      'Exit',
+                      style: FlutterFlowTheme.of(context).title3.override(
+                            fontFamily: 'Montserrat',
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.w600,
+                            useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                FlutterFlowTheme.of(context).title3Family),
+                          ),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Color(0xFF303030),
+                      size: 20.0,
+                    ),
+                    tileColor: Color(0xFFF5F5F5),
+                    dense: false,
+                  ),
                 ),
               ),
               Divider(
