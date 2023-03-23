@@ -52,68 +52,73 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-      body: SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
-                child: Container(
-                  width: 430.0,
-                  height: 932.0,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color(0xFFC0DDFF),
-                        Color(0xFF73B3FF),
-                        Color(0xFF7BB5FA)
-                      ],
-                      stops: [0.0, 1.0, 1.0],
-                      begin: AlignmentDirectional(0.0, -1.0),
-                      end: AlignmentDirectional(0, 1.0),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            0.0, 300.0, 0.0, 0.0),
-                        child: Image.asset(
-                          'assets/images/splash.PNG',
-                          width: 250.0,
-                          height: 210.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 0.0),
-                        child: Text(
-                          'O/L Exam Paper Hub',
-                          textAlign: TextAlign.center,
-                          style: FlutterFlowTheme.of(context)
-                              .bodyText1
-                              .override(
-                                fontFamily: 'Montserrat',
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.w800,
-                                useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                    FlutterFlowTheme.of(context)
-                                        .bodyText1Family),
-                              ),
-                        ),
-                      ),
-                    ],
-                  ),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: GestureDetector(
+            onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+            child: Container(
+              width: width,
+              height: height,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFFC0DDFF),
+                    Color(0xFF73B3FF),
+                    Color(0xFF7BB5FA)
+                  ],
+                  stops: [0.0, 1.0, 1.0],
+                  begin: AlignmentDirectional(0.0, -1.0),
+                  end: AlignmentDirectional(0, 1.0),
                 ),
               ),
-            ],
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Align(
+                    alignment: AlignmentDirectional(0.0, 0.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 250.0, 0.0, 0.0),
+                          child: Image.asset(
+                            'assets/images/splash.PNG',
+                            width: 250.0,
+                            height: 210.0,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 0.0),
+                          child: Text(
+                            'O/L Exam Paper Hub',
+                            textAlign: TextAlign.center,
+                            style: FlutterFlowTheme.of(context)
+                                .bodyText1
+                                .override(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 30.0,
+                                  fontWeight: FontWeight.w800,
+                                  useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                      FlutterFlowTheme.of(context)
+                                          .bodyText1Family),
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
