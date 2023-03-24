@@ -311,7 +311,7 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 20.0, 0.0, 0.0),
+                                    0.0, 30.0, 0.0, 0.0),
                                 child: FFButtonWidget(
                                   onPressed: () {
                                     print('Button pressed ...');
@@ -350,7 +350,7 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
                       ),
                       Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 100.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 10.0),
                         child: FlutterFlowIconButton(
                           borderColor: Colors.transparent,
                           borderRadius: 30.0,
@@ -361,8 +361,8 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
                             color: FlutterFlowTheme.of(context).primaryBtnText,
                             size: 30.0,
                           ),
-                          onPressed: () {
-                            print('IconButton pressed ...');
+                          onPressed: () async {
+                            context.pushNamed('Main_page');
                           },
                         ),
                       ),

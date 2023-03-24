@@ -53,7 +53,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
           child: SingleChildScrollView(
             child: Container(
               width: width,
-              height: height,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [

@@ -256,7 +256,7 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                                       controller: textEditingController,
                                       focusNode: focusNode,
                                       onEditingComplete: onEditingComplete,
-                                      autofocus: true,
+                                      autofocus: false,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         hintText: 'Enter your full name',
@@ -388,7 +388,7 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                                       controller: textEditingController,
                                       focusNode: focusNode,
                                       onEditingComplete: onEditingComplete,
-                                      autofocus: true,
+                                      autofocus: false,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         hintText: 'Enter your age',
@@ -525,8 +525,7 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                                       controller: textEditingController,
                                       focusNode: focusNode,
                                       onEditingComplete: onEditingComplete,
-                                      autofocus: true,
-                                      autofillHints: [AutofillHints.email],
+                                      autofocus: false,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         hintText: 'Enter your home town name',
@@ -657,7 +656,7 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                                       controller: textEditingController,
                                       focusNode: focusNode,
                                       onEditingComplete: onEditingComplete,
-                                      autofocus: true,
+                                      autofocus: false,
                                       autofillHints: [AutofillHints.email],
                                       readOnly: true,
                                       obscureText: false,
@@ -816,7 +815,7 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                                         Duration(milliseconds: 1000),
                                         () => setState(() {}),
                                       ),
-                                      autofocus: true,
+                                      autofocus: false,
                                       autofillHints: [AutofillHints.password],
                                       obscureText: !_model.passwordVisibility,
                                       decoration: InputDecoration(
@@ -928,7 +927,7 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 15.0, 0.0, 10.0),
                     child: FlutterFlowIconButton(
                       borderColor: Colors.transparent,
                       borderRadius: 30.0,
@@ -939,8 +938,8 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                         color: FlutterFlowTheme.of(context).primaryBtnText,
                         size: 25.0,
                       ),
-                      onPressed: () {
-                        print('IconButton pressed ...');
+                      onPressed: () async {
+                        context.pushNamed('Main_page');
                       },
                     ),
                   ),

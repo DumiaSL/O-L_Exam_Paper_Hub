@@ -46,182 +46,85 @@ class _MainPageWidgetState extends State<MainPageWidget> {
         width: 265.0,
         child: Drawer(
           elevation: 16.0,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                width: 319.9,
-                height: 250.0,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFFC0DDFF),
-                      Color(0xFF73B3FF),
-                      Color(0xFF7BB5FA)
-                    ],
-                    stops: [0.0, 1.0, 1.0],
-                    begin: AlignmentDirectional(0.0, -1.0),
-                    end: AlignmentDirectional(0, 1.0),
-                  ),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 45.0, 0.0, 0.0),
-                      child: Container(
-                        width: 130.0,
-                        height: 130.0,
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: Image.network(
-                          'https://picsum.photos/seed/547/600',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  width: 319.9,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFFC0DDFF),
+                        Color(0xFF73B3FF),
+                        Color(0xFF7BB5FA)
+                      ],
+                      stops: [0.0, 1.0, 1.0],
+                      begin: AlignmentDirectional(0.0, -1.0),
+                      end: AlignmentDirectional(0, 1.0),
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-                      child: Text(
-                        'Dumidu Fernando',
-                        style: FlutterFlowTheme.of(context).bodyText1.override(
-                              fontFamily: 'Montserrat',
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.bold,
-                              useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                  FlutterFlowTheme.of(context).bodyText1Family),
-                            ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
-                      child: Text(
-                        'dumidufarnando@gmail.com',
-                        style: FlutterFlowTheme.of(context).bodyText1.override(
-                              fontFamily:
-                                  FlutterFlowTheme.of(context).bodyText1Family,
-                              fontSize: 13.0,
-                              fontWeight: FontWeight.w500,
-                              useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                  FlutterFlowTheme.of(context).bodyText1Family),
-                            ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                thickness: 4.0,
-              ),
-              InkWell(
-                onTap: () async {
-                  context.pushNamed('Edit_profile_Page');
-                },
-                child: ListTile(
-                  title: Text(
-                    'Edit profile',
-                    style: FlutterFlowTheme.of(context).title3.override(
-                          fontFamily: 'Montserrat',
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w600,
-                          useGoogleFonts: GoogleFonts.asMap().containsKey(
-                              FlutterFlowTheme.of(context).title3Family),
-                        ),
                   ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Color(0xFF303030),
-                    size: 20.0,
-                  ),
-                  tileColor: Color(0xFFF5F5F5),
-                  dense: false,
-                ),
-              ),
-              Divider(
-                thickness: 2.0,
-              ),
-              InkWell(
-                onTap: () async {
-                  await showDialog(
-                    context: context,
-                    builder: (alertDialogContext) {
-                      return AlertDialog(
-                        title: Text('Rate Us'),
-                        content: Text('Not yet Published !'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(alertDialogContext),
-                            child: Text('Ok'),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 45.0, 0.0, 0.0),
+                        child: Container(
+                          width: 130.0,
+                          height: 130.0,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
                           ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: ListTile(
-                  title: Text(
-                    'Rate Us',
-                    style: FlutterFlowTheme.of(context).title3.override(
-                          fontFamily: 'Montserrat',
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w600,
-                          useGoogleFonts: GoogleFonts.asMap().containsKey(
-                              FlutterFlowTheme.of(context).title3Family),
+                          child: Image.network(
+                            'https://picsum.photos/seed/547/600',
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Color(0xFF303030),
-                    size: 20.0,
-                  ),
-                  tileColor: Color(0xFFF5F5F5),
-                  dense: false,
-                ),
-              ),
-              Divider(
-                thickness: 2.0,
-              ),
-              InkWell(
-                onTap: () async {
-                  context.pushNamed('Login_page');
-                },
-                child: ListTile(
-                  title: Text(
-                    'Sign out',
-                    style: FlutterFlowTheme.of(context).title3.override(
-                          fontFamily: FlutterFlowTheme.of(context).title3Family,
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w600,
-                          useGoogleFonts: GoogleFonts.asMap().containsKey(
-                              FlutterFlowTheme.of(context).title3Family),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                        child: Text(
+                          'Dumidu Fernando',
+                          style: FlutterFlowTheme.of(context).bodyText1.override(
+                                fontFamily: 'Montserrat',
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.bold,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context).bodyText1Family),
+                              ),
                         ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 20.0),
+                        child: Text(
+                          'dumidufarnando@gmail.com',
+                          style: FlutterFlowTheme.of(context).bodyText1.override(
+                                fontFamily:
+                                    FlutterFlowTheme.of(context).bodyText1Family,
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.w500,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context).bodyText1Family),
+                              ),
+                        ),
+                      ),
+                    ],
                   ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Color(0xFF303030),
-                    size: 20.0,
-                  ),
-                  tileColor: Color(0xFFF5F5F5),
-                  dense: false,
                 ),
-              ),
-              Divider(
-                thickness: 2.0,
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 310.0, 0.0, 0.0),
-                child: InkWell(
+                Divider(
+                  thickness: 4.0,
+                ),
+                InkWell(
                   onTap: () async {
-                    context.pushNamed('Login_page');
+                    context.pushNamed('Edit_profile_Page');
                   },
                   child: ListTile(
                     title: Text(
-                      'Exit',
+                      'Edit profile',
                       style: FlutterFlowTheme.of(context).title3.override(
                             fontFamily: 'Montserrat',
                             fontSize: 17.0,
@@ -239,11 +142,109 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                     dense: false,
                   ),
                 ),
-              ),
-              Divider(
-                thickness: 1.0,
-              ),
-            ],
+                Divider(
+                  thickness: 2.0,
+                ),
+                InkWell(
+                  onTap: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (alertDialogContext) {
+                        return AlertDialog(
+                          title: Text('Rate Us'),
+                          content: Text('Not yet Published !'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(alertDialogContext),
+                              child: Text('Ok'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: ListTile(
+                    title: Text(
+                      'Rate Us',
+                      style: FlutterFlowTheme.of(context).title3.override(
+                            fontFamily: 'Montserrat',
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.w600,
+                            useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                FlutterFlowTheme.of(context).title3Family),
+                          ),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Color(0xFF303030),
+                      size: 20.0,
+                    ),
+                    tileColor: Color(0xFFF5F5F5),
+                    dense: false,
+                  ),
+                ),
+                Divider(
+                  thickness: 2.0,
+                ),
+                InkWell(
+                  onTap: () async {
+                    context.pushNamed('Login_page');
+                  },
+                  child: ListTile(
+                    title: Text(
+                      'Sign out',
+                      style: FlutterFlowTheme.of(context).title3.override(
+                            fontFamily: FlutterFlowTheme.of(context).title3Family,
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.w600,
+                            useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                FlutterFlowTheme.of(context).title3Family),
+                          ),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Color(0xFF303030),
+                      size: 20.0,
+                    ),
+                    tileColor: Color(0xFFF5F5F5),
+                    dense: false,
+                  ),
+                ),
+                Divider(
+                  thickness: 2.0,
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 268.0, 0.0, 0.0),
+                  child: InkWell(
+                    onTap: () async {
+                      context.pushNamed('Login_page');
+                    },
+                    child: ListTile(
+                      title: Text(
+                        'Exit',
+                        style: FlutterFlowTheme.of(context).title3.override(
+                              fontFamily: 'Montserrat',
+                              fontSize: 17.0,
+                              fontWeight: FontWeight.w600,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  FlutterFlowTheme.of(context).title3Family),
+                            ),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Color(0xFF303030),
+                        size: 20.0,
+                      ),
+                      tileColor: Color(0xFFF5F5F5),
+                      dense: false,
+                    ),
+                  ),
+                ),
+                Divider(
+                  thickness: 1.0,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -257,42 +258,43 @@ class _MainPageWidgetState extends State<MainPageWidget> {
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
-          child: SingleChildScrollView(
-            child: Container(
-              width: width,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFFC0DDFF),
-                    Color(0xFF73B3FF),
-                    Color(0xFF7BB5FA)
-                  ],
-                  stops: [0.0, 1.0, 1.0],
-                  begin: AlignmentDirectional(0.0, -1.0),
-                  end: AlignmentDirectional(0, 1.0),
-                ),
+          child: Container(
+            width: width,
+            height: height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFC0DDFF),
+                  Color(0xFF73B3FF),
+                  Color(0xFF7BB5FA)
+                ],
+                stops: [0.0, 1.0, 1.0],
+                begin: AlignmentDirectional(0.0, -1.0),
+                end: AlignmentDirectional(0, 1.0),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 0.0),
-                    child: Text(
-                      'Choose The Subject ',
-                      style: FlutterFlowTheme.of(context).bodyText1.override(
-                            fontFamily:
-                                FlutterFlowTheme.of(context).bodyText1Family,
-                            fontSize: 23.0,
-                            fontWeight: FontWeight.w600,
-                            useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                FlutterFlowTheme.of(context).bodyText1Family),
-                          ),
-                    ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 0.0),
+                  child: Text(
+                    'Choose The Subject ',
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily:
+                              FlutterFlowTheme.of(context).bodyText1Family,
+                          fontSize: 23.0,
+                          fontWeight: FontWeight.w600,
+                          useGoogleFonts: GoogleFonts.asMap().containsKey(
+                              FlutterFlowTheme.of(context).bodyText1Family),
+                        ),
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(30.0, 40.0, 30.0, 0.0),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(30.0, 40.0, 30.0, 10.0),
+                    child: Container(
                       child: GridView(
                         padding: EdgeInsets.zero,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -973,8 +975,8 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
