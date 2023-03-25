@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "911122000942",
+    "project_id": "ol-exam-paper-hub",
+    "storage_bucket": "ol-exam-paper-hub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911122000942:android:efb602542d52055e86c3bf",
+        "android_client_info": {
+          "package_name": "com.mycompany.olexampaperhub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911122000942-iqgksvt55thcfldc2bekbr0a9ohc0088.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4ezHUNZOe7891nKGNpuoc-gCDdsW99oc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911122000942-iqgksvt55thcfldc2bekbr0a9ohc0088.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
