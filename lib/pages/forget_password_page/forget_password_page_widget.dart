@@ -1,3 +1,10 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
+
+import '../login_page/login_page_widget.dart';
 import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -8,6 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'forget_password_page_model.dart';
 export 'forget_password_page_model.dart';
+import 'package:material_dialogs/material_dialogs.dart';
 
 class ForgetPasswordPageWidget extends StatefulWidget {
   const ForgetPasswordPageWidget({Key? key}) : super(key: key);
@@ -23,12 +31,16 @@ class _ForgetPasswordPageWidgetState extends State<ForgetPasswordPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
 
+  final FirebaseAuth  _auth= FirebaseAuth.instance;
+
+  final TextEditingController _emailController = TextEditingController();
+  var _emailRedError= false;
+
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => ForgetPasswordPageModel());
-
-    _model.textController ??= TextEditingController();
+    
   }
 
   @override
@@ -158,21 +170,24 @@ class _ForgetPasswordPageWidgetState extends State<ForgetPasswordPageWidget> {
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 5.0, 0.0, 0.0),
-                                  child: Text(
-                                    'Not valid user name',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyText1
-                                        .override(
-                                          fontFamily: FlutterFlowTheme.of(context)
-                                              .bodyText1Family,
-                                          color: Color(0xFFFA0707),
-                                          fontSize: 11.0,
-                                          fontWeight: FontWeight.w500,
-                                          useGoogleFonts: GoogleFonts.asMap()
-                                              .containsKey(
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyText1Family),
-                                        ),
+                                  child: Visibility(
+                                    visible: _emailRedError,
+                                    child: Text(
+                                      'Not valid user name',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyText1
+                                          .override(
+                                            fontFamily: FlutterFlowTheme.of(context)
+                                                .bodyText1Family,
+                                            color: Color(0xFFFA0707),
+                                            fontSize: 11.0,
+                                            fontWeight: FontWeight.w500,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1Family),
+                                          ),
+                                    ),
                                   ),
                                 ),
                                 Padding(
@@ -229,7 +244,7 @@ class _ForgetPasswordPageWidgetState extends State<ForgetPasswordPageWidget> {
                                             textEditingController;
                                         return TextFormField(
                                           key: _model.textFieldKey,
-                                          controller: textEditingController,
+                                          controller: _emailController,
                                           focusNode: focusNode,
                                           onEditingComplete: onEditingComplete,
                                           autofocus: false,
@@ -292,7 +307,15 @@ class _ForgetPasswordPageWidgetState extends State<ForgetPasswordPageWidget> {
                                       0.0, 30.0, 0.0, 0.0),
                                   child: FFButtonWidget(
                                     onPressed: () {
-                                      print('Button pressed ...');
+                                      var email = _emailController.text;
+                                      setState(() {
+                                        if (EmailValidator.validate(email) || email.length==10){
+                                          _emailRedError=false;
+                                          resetpasswordprocess(email);
+                                        }else{
+                                          _emailRedError=true;
+                                        }
+                                      });
                                     },
                                     text: 'Send Request',
                                     options: FFButtonOptions(
@@ -319,14 +342,6 @@ class _ForgetPasswordPageWidgetState extends State<ForgetPasswordPageWidget> {
                                       ),
                                       borderRadius: BorderRadius.circular(30.0),
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 20.0, 0.0, 0.0),
-                                  child: Text(
-                                    'Check your mail inbox',
-                                    style: FlutterFlowTheme.of(context).bodyText1,
                                   ),
                                 ),
                               ],
@@ -361,5 +376,51 @@ class _ForgetPasswordPageWidgetState extends State<ForgetPasswordPageWidget> {
         ),
       ),
     );
+  }
+
+  resetpasswordprocess(String email) async {
+    try {
+      await resetpassword(email);
+      Dialogs.materialDialog(
+          msg: 'Please Check Your Email !',
+          title: "Reset Password",
+          color: Colors.white,
+          context: context,
+          actions: [
+            IconsOutlineButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              text: 'Cancel',
+              color: Colors.red,
+              iconData: Icons.cancel_outlined,
+              textStyle: TextStyle(color: Colors.white),
+              iconColor: Colors.white,
+            ),
+            IconsButton(
+              onPressed: () {
+                context.goNamed('Login_page');
+              },
+              text: 'Ok',
+              iconData: Icons.delete,
+              color: Colors.green,
+              textStyle: TextStyle(color: Colors.white),
+              iconColor: Colors.white,
+            ),
+          ]);
+    }catch(error){
+      AnimatedSnackBar.material(
+        "Something went wrong. Please check your email and try again",
+        type: AnimatedSnackBarType.error,
+      ).show(context);
+    }
+  }
+
+  Future<void> resetpassword(
+      String email) async{
+    await _auth.sendPasswordResetEmail(
+      email: email,
+    );
+    //you can also store the user in Database
   }
 }

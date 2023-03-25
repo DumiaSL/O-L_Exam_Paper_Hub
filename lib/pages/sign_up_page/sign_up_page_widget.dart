@@ -1,3 +1,8 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:o_l_exam_paper_hub/Api/UserModel.dart';
+
 import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -23,16 +28,19 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
 
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _fullnameController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _hometownController = TextEditingController();
+
+  final  _db= FirebaseFirestore.instance;
+  final FirebaseAuth  _auth= FirebaseAuth.instance;
+
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => SignUpPageModel());
-
-    _model.textController1 ??= TextEditingController();
-    _model.textController2 ??= TextEditingController();
-    _model.textController3 ??= TextEditingController();
-    _model.textController4 ??= TextEditingController();
-    _model.textController5 ??= TextEditingController();
   }
 
   @override
@@ -193,7 +201,7 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                             textEditingController;
                                         return TextFormField(
                                           key: _model.textFieldKey1,
-                                          controller: textEditingController,
+                                          controller: _fullnameController,
                                           focusNode: focusNode,
                                           onEditingComplete: onEditingComplete,
                                           autofocus: false,
@@ -325,7 +333,7 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                             textEditingController;
                                         return TextFormField(
                                           key: _model.textFieldKey2,
-                                          controller: textEditingController,
+                                          controller: _ageController,
                                           focusNode: focusNode,
                                           onEditingComplete: onEditingComplete,
                                           autofocus: false,
@@ -462,11 +470,11 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                             textEditingController;
                                         return TextFormField(
                                           key: _model.textFieldKey3,
-                                          controller: textEditingController,
+                                          controller: _hometownController,
                                           focusNode: focusNode,
                                           onEditingComplete: onEditingComplete,
                                           autofocus: false,
-                                          autofillHints: [AutofillHints.email],
+                                          autofillHints: [AutofillHints.countryName],
                                           obscureText: false,
                                           decoration: InputDecoration(
                                             hintText: 'Enter your home town name',
@@ -542,21 +550,24 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 5.0, 0.0, 0.0),
-                                  child: Text(
-                                    'Not valid user name',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyText1
-                                        .override(
-                                          fontFamily: FlutterFlowTheme.of(context)
-                                              .bodyText1Family,
-                                          color: Color(0xFFFA0707),
-                                          fontSize: 11.0,
-                                          fontWeight: FontWeight.w500,
-                                          useGoogleFonts: GoogleFonts.asMap()
-                                              .containsKey(
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyText1Family),
-                                        ),
+                                  child: Visibility(
+                                    visible: false,
+                                    child: Text(
+                                      'Not valid user name',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyText1
+                                          .override(
+                                            fontFamily: FlutterFlowTheme.of(context)
+                                                .bodyText1Family,
+                                            color: Color(0xFFFA0707),
+                                            fontSize: 11.0,
+                                            fontWeight: FontWeight.w500,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1Family),
+                                          ),
+                                    ),
                                   ),
                                 ),
                                 Padding(
@@ -614,7 +625,7 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                             textEditingController;
                                         return TextFormField(
                                           key: _model.textFieldKey4,
-                                          controller: textEditingController,
+                                          controller: _emailController,
                                           focusNode: focusNode,
                                           onEditingComplete: onEditingComplete,
                                           autofocus: false,
@@ -695,21 +706,24 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 5.0, 0.0, 0.0),
-                                  child: Text(
-                                    'Up to 8 characters',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyText1
-                                        .override(
-                                          fontFamily: FlutterFlowTheme.of(context)
-                                              .bodyText1Family,
-                                          color: Color(0xFFFA0707),
-                                          fontSize: 11.0,
-                                          fontWeight: FontWeight.w500,
-                                          useGoogleFonts: GoogleFonts.asMap()
-                                              .containsKey(
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyText1Family),
-                                        ),
+                                  child: Visibility(
+                                    visible: false,
+                                    child: Text(
+                                      'Up to 8 characters',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyText1
+                                          .override(
+                                            fontFamily: FlutterFlowTheme.of(context)
+                                                .bodyText1Family,
+                                            color: Color(0xFFFA0707),
+                                            fontSize: 11.0,
+                                            fontWeight: FontWeight.w500,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1Family),
+                                          ),
+                                    ),
                                   ),
                                 ),
                                 Padding(
@@ -767,7 +781,7 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                             textEditingController;
                                         return TextFormField(
                                           key: _model.textFieldKey5,
-                                          controller: textEditingController,
+                                          controller: _passwordController,
                                           focusNode: focusNode,
                                           onEditingComplete: onEditingComplete,
                                           autofocus: false,
@@ -846,7 +860,10 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                       0.0, 25.0, 0.0, 30.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
-                                      context.pushNamed('Main_page');
+                                      print(_fullnameController.text);
+
+                                      createAccountProcess(new UserModel(email: _emailController.text, fullname: _fullnameController.text, age: int.parse(_ageController.text),
+                                          hometown: _hometownController.text, password: _passwordController.text));
                                     },
                                     text: 'Login',
                                     options: FFButtonOptions(
@@ -893,7 +910,7 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                       size: 25,
                     ),
                     onPressed: () async {
-                      context.pushNamed('Login_page');
+                      context.goNamed('Login_page');
                     },
                   ),
                 ),
@@ -907,4 +924,30 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
       ),
     );
   }
+
+  Future<void> createAccountProcess(UserModel user)  async {
+    //Checking if is login or register
+    try{
+      await createAccount(user);
+
+      context.goNamed('Main_page');
+
+      AnimatedSnackBar.material(
+        'Successfully Created Account',
+        type: AnimatedSnackBarType.info,
+      ).show(context);
+
+    }catch (error){
+      AnimatedSnackBar.material(
+        "Something went wrong. Please check your credentials and try again",
+        type: AnimatedSnackBarType.error,
+      ).show(context);
+    }
+  }
+
+  Future<void> createAccount(UserModel user) async {
+    await _auth.createUserWithEmailAndPassword(email: user.email, password: user.password);
+    _db.collection("Users").doc(user.email).set(user.toJson());
+  }
+
 }

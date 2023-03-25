@@ -54,6 +54,10 @@ dependencies:
   firebase_core: ^2.5.0
   cloud_firestore: ^4.2.0
   google_sign_in: ^6.0.2
+  email_validator: ^2.1.17
+  animated_snack_bar: ^0.3.0
+  material_dialogs: ^1.1.4
+
 
 dev_dependencies:
 

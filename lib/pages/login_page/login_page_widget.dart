@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import '../main_page/main_page_widget.dart';
 import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -7,6 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'login_page_model.dart';
 export 'login_page_model.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 
 class LoginPageWidget extends StatefulWidget {
   const LoginPageWidget({Key? key}) : super(key: key);
@@ -21,14 +25,19 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
 
+  bool _loading = false;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  var _emailRedError= false;
+  var _passwordRedError= false;
+
+  final FirebaseAuth  _auth= FirebaseAuth.instance;
+
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => LoginPageModel());
-
-    _model.textController1 ??= TextEditingController();
-    _model.textController2 ??= TextEditingController();
   }
 
   @override
@@ -154,21 +163,24 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 5.0, 0.0, 0.0),
-                              child: Text(
-                                'Not valid user name',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyText1
-                                    .override(
-                                      fontFamily: FlutterFlowTheme.of(context)
-                                          .bodyText1Family,
-                                      color: Color(0xFFFA0707),
-                                      fontSize: 11.0,
-                                      fontWeight: FontWeight.w500,
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyText1Family),
-                                    ),
+                              child: Visibility(
+                                visible: _emailRedError,
+                                child: Text(
+                                  'Not valid user name',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyText1
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .bodyText1Family,
+                                        color: Color(0xFFFA0707),
+                                        fontSize: 11.0,
+                                        fontWeight: FontWeight.w500,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyText1Family),
+                                      ),
+                                ),
                               ),
                             ),
                             Padding(
@@ -194,7 +206,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                       (context, onSelected, options) {
                                     return AutocompleteOptionsList(
                                       textFieldKey: _model.textFieldKey1,
-                                      textController: _model.textController1!,
+                                      textController: _model.emailcontroller!,
                                       options: options.toList(),
                                       onSelected: onSelected,
                                       textStyle: FlutterFlowTheme.of(context)
@@ -222,11 +234,11 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                     focusNode,
                                     onEditingComplete,
                                   ) {
-                                    _model.textController1 =
+                                    _model.emailcontroller =
                                         textEditingController;
                                     return TextFormField(
                                       key: _model.textFieldKey1,
-                                      controller: textEditingController,
+                                      controller: _emailController,
                                       focusNode: focusNode,
                                       onEditingComplete: onEditingComplete,
                                       autofocus: false,
@@ -307,21 +319,24 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 5.0, 0.0, 0.0),
-                              child: Text(
-                                'wrong Password',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyText1
-                                    .override(
-                                      fontFamily: FlutterFlowTheme.of(context)
-                                          .bodyText1Family,
-                                      color: Color(0xFFFA0707),
-                                      fontSize: 11.0,
-                                      fontWeight: FontWeight.w500,
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyText1Family),
-                                    ),
+                              child: Visibility(
+                                visible: _passwordRedError,
+                                child: Text(
+                                  'wrong Password',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyText1
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .bodyText1Family,
+                                        color: Color(0xFFFA0707),
+                                        fontSize: 11.0,
+                                        fontWeight: FontWeight.w500,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyText1Family),
+                                      ),
+                                ),
                               ),
                             ),
                             Padding(
@@ -379,7 +394,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                         textEditingController;
                                     return TextFormField(
                                       key: _model.textFieldKey2,
-                                      controller: textEditingController,
+                                      controller: _passwordController,
                                       focusNode: focusNode,
                                       onEditingComplete: onEditingComplete,
                                       autofocus: false,
@@ -483,7 +498,29 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                   0.0, 25.0, 0.0, 0.0),
                               child: FFButtonWidget(
                                 onPressed: () async {
-                                  context.pushNamed('Main_page');
+                                  var email= _emailController.text;
+                                  var password = _passwordController.text;
+
+                                  setState(() {
+                                    if (EmailValidator.validate(email)){
+                                      _emailRedError = false;
+                                    }else {
+                                      _emailRedError = true;
+                                    }
+                                    //
+                                    if (password.length >= 8){
+                                      _passwordRedError = false;
+                                    }else {
+                                      _passwordRedError = true;
+                                    }
+                                    //
+                                    if (EmailValidator.validate(email) && password.length >= 8) {
+                                      _passwordRedError=false;
+                                      _emailRedError = false;
+
+                                      signInProcess(email,password);
+                                    }
+                                  });
                                 },
                                 text: 'Login',
                                 options: FFButtonOptions(
@@ -548,7 +585,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                             FlutterFlowTheme.of(context)
                                                 .bodyText1Family,
                                         color: Color(0xFF1076EF),
-                                        fontSize: 13.0,
+                                        fontSize: 17.0,
                                         fontWeight: FontWeight.w500,
                                         useGoogleFonts: GoogleFonts.asMap()
                                             .containsKey(
@@ -634,5 +671,39 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
         ),
       ),
     );
+  }
+
+  Future<void> signInProcess(String email, String password)  async {
+    setState(() {
+      _loading = true;
+    });
+
+    //Checking if is login or register
+    try{
+      await signInWithEmailAndPassword(email, password);
+
+      setState(() {
+        _loading = false;
+      });
+      context.goNamed('Main_page');
+
+      AnimatedSnackBar.material(
+        'Successfully Logged In',
+        type: AnimatedSnackBarType.info,
+      ).show(context);
+
+    }catch (error){
+      AnimatedSnackBar.material(
+        "Something went wrong. Please check your credentials and try again",
+        type: AnimatedSnackBarType.error,
+      ).show(context);
+    }
+  }
+
+  Future<void> signInWithEmailAndPassword(String email, String password) async {
+      final user = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
   }
 }

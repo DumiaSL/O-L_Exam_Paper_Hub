@@ -11,7 +11,7 @@ class LoginPageModel extends FlutterFlowModel {
 
   // State field(s) for TextField widget.
   final textFieldKey1 = GlobalKey();
-  TextEditingController? textController1;
+  TextEditingController? emailcontroller;
   String? textFieldSelectedOption1;
   String? Function(BuildContext, String?)? textController1Validator;
   // State field(s) for TextField widget.
