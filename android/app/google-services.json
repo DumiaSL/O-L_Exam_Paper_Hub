@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "911122000942-iqgksvt55thcfldc2bekbr0a9ohc0088.apps.googleusercontent.com",
+          "client_id": "911122000942-30enubtatb86iapts49s3ubufg3vur57.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +27,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "911122000942-iqgksvt55thcfldc2bekbr0a9ohc0088.apps.googleusercontent.com",
+              "client_id": "911122000942-30enubtatb86iapts49s3ubufg3vur57.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "911122000942-709b7i8dnqj01m6m58kdupr8hkuat49h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.olexampaperhub"
+              }
             }
           ]
         }

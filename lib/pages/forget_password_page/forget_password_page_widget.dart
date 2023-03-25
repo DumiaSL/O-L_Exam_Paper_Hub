@@ -40,7 +40,7 @@ class _ForgetPasswordPageWidgetState extends State<ForgetPasswordPageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ForgetPasswordPageModel());
-    
+
   }
 
   @override
@@ -402,7 +402,7 @@ class _ForgetPasswordPageWidgetState extends State<ForgetPasswordPageWidget> {
                 context.goNamed('Login_page');
               },
               text: 'Ok',
-              iconData: Icons.delete,
+              iconData: Icons.tag_faces_rounded,
               color: Colors.green,
               textStyle: TextStyle(color: Colors.white),
               iconColor: Colors.white,

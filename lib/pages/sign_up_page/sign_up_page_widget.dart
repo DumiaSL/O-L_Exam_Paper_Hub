@@ -1,5 +1,6 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:o_l_exam_paper_hub/Api/UserModel.dart';
 
@@ -11,7 +12,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'sign_up_page_model.dart';
 export 'sign_up_page_model.dart';
 
@@ -36,6 +36,12 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
 
   final  _db= FirebaseFirestore.instance;
   final FirebaseAuth  _auth= FirebaseAuth.instance;
+
+  var _passwordRedError=false;
+  var _emailRedError = false;
+  var _ageRedError=false;
+  var _hometownRedError = false;
+  var _fullnameRedError=false;
 
   @override
   void initState() {
@@ -144,6 +150,29 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .bodyText1Family),
                                         ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 5.0, 0.0, 0.0),
+                                  child: Visibility(
+                                    visible: _fullnameRedError,
+                                    child: Text(
+                                      'Must filed',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyText1
+                                          .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .bodyText1Family,
+                                        color: Color(0xFFFA0707),
+                                        fontSize: 11.0,
+                                        fontWeight: FontWeight.w500,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .bodyText1Family),
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 Padding(
@@ -276,6 +305,29 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .bodyText1Family),
                                         ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 5.0, 0.0, 0.0),
+                                  child: Visibility(
+                                    visible: _ageRedError,
+                                    child: Text(
+                                      'Up to 8 characters',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyText1
+                                          .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .bodyText1Family,
+                                        color: Color(0xFFFA0707),
+                                        fontSize: 11.0,
+                                        fontWeight: FontWeight.w500,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .bodyText1Family),
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 Padding(
@@ -417,6 +469,29 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 5.0, 0.0, 0.0),
+                                  child: Visibility(
+                                    visible: _hometownRedError,
+                                    child: Text(
+                                      'Up to 8 characters',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyText1
+                                          .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .bodyText1Family,
+                                        color: Color(0xFFFA0707),
+                                        fontSize: 11.0,
+                                        fontWeight: FontWeight.w500,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .bodyText1Family),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 10.0, 0.0, 0.0),
                                   child: Container(
                                     width: 300.0,
@@ -551,7 +626,7 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 5.0, 0.0, 0.0),
                                   child: Visibility(
-                                    visible: false,
+                                    visible: _emailRedError,
                                     child: Text(
                                       'Not valid user name',
                                       style: FlutterFlowTheme.of(context)
@@ -707,7 +782,7 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 5.0, 0.0, 0.0),
                                   child: Visibility(
-                                    visible: false,
+                                    visible: _passwordRedError,
                                     child: Text(
                                       'Up to 8 characters',
                                       style: FlutterFlowTheme.of(context)
@@ -860,10 +935,49 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                       0.0, 25.0, 0.0, 30.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
-                                      print(_fullnameController.text);
 
-                                      createAccountProcess(new UserModel(email: _emailController.text, fullname: _fullnameController.text, age: int.parse(_ageController.text),
-                                          hometown: _hometownController.text, password: _passwordController.text));
+                                      setState(() {
+                                        if (EmailValidator.validate(_emailController.text)){
+                                          _emailRedError = false;
+                                        }else {
+                                          _emailRedError = true;
+                                        }
+                                        //
+                                        if (_passwordController.text.length >= 8){
+                                          _passwordRedError = false;
+                                        }else {
+                                          _passwordRedError = true;
+                                        }
+
+                                        if (_fullnameController.text.isEmpty){
+                                          _fullnameRedError = true;
+                                        }else {
+                                          _fullnameRedError = false;
+                                        }
+
+                                        if (!(_ageController.text.isEmpty) && (int.parse(_ageController.text)>=10)){
+                                          _ageRedError = false;
+                                        }else {
+                                          _ageRedError = true;
+                                        }
+
+                                        if (_hometownController.text.isEmpty){
+                                          _hometownRedError = true;
+                                        }else {
+                                          _hometownRedError = false;
+                                        }
+                                        //
+                                        if ((EmailValidator.validate(_emailController.text)) && (_passwordController.text.length >= 8) && (_fullnameController.text.isNotEmpty)
+                                           && ((_ageController.text.isNotEmpty) && (int.parse(_ageController.text)>=10)) && (_hometownController.text.isNotEmpty)) {
+                                          _passwordRedError=false;
+                                          _emailRedError = false;
+                                          _ageRedError=false;
+                                          _hometownRedError = false;
+                                          _fullnameRedError=false;
+                                          createAccountProcess(new UserModel(email: _emailController.text, fullname: _fullnameController.text, age: int.parse(_ageController.text),
+                                              hometown: _hometownController.text, password: _passwordController.text));
+                                        }
+                                      });
                                     },
                                     text: 'Login',
                                     options: FFButtonOptions(
@@ -934,7 +1048,7 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
 
       AnimatedSnackBar.material(
         'Successfully Created Account',
-        type: AnimatedSnackBarType.info,
+        type: AnimatedSnackBarType.success,
       ).show(context);
 
     }catch (error){

@@ -1,3 +1,9 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -191,6 +197,12 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                     context.pushNamed('Login_page');
                   },
                   child: ListTile(
+                    onTap: () async {
+                      //Use this log out user
+                      await logout();
+                      FirebaseAuth.instance.signOut();
+                      context.goNamed('Login_page');
+                    },
                     title: Text(
                       'Sign out',
                       style: FlutterFlowTheme.of(context).title3.override(
@@ -220,6 +232,13 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                       context.pushNamed('Login_page');
                     },
                     child: ListTile(
+                      onTap: (){
+                        if (Platform.isAndroid) {
+                          SystemNavigator.pop();
+                        } else if (Platform.isIOS) {
+                          exit(0);
+                        }
+                      },
                       title: Text(
                         'Exit',
                         style: FlutterFlowTheme.of(context).title3.override(
@@ -982,5 +1001,11 @@ class _MainPageWidgetState extends State<MainPageWidget> {
         ),
       ),
     );
+  }
+
+  //google sing out service
+  Future<void> logout() async {
+    final GoogleSignIn googleSign = GoogleSignIn();
+    await googleSign.signOut();
   }
 }

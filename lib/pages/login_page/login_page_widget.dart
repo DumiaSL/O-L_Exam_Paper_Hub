@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../main_page/main_page_widget.dart';
 import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -25,13 +27,13 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
 
-  bool _loading = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   var _emailRedError= false;
   var _passwordRedError= false;
 
   final FirebaseAuth  _auth= FirebaseAuth.instance;
+  final  _db= FirebaseFirestore.instance;
 
 
   @override
@@ -500,8 +502,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                 onPressed: () async {
                                   var email= _emailController.text;
                                   var password = _passwordController.text;
-
-                                  setState(() {
+                                  setState(() async {
                                     if (EmailValidator.validate(email)){
                                       _emailRedError = false;
                                     }else {
@@ -518,7 +519,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                       _passwordRedError=false;
                                       _emailRedError = false;
 
-                                      signInProcess(email,password);
+                                      await signInProcess(email,password);
                                     }
                                   });
                                 },
@@ -608,58 +609,60 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                       child: Container(
                         width: 230.0,
                         height: 44.0,
-                        child: Stack(
-                          children: [
-                            Align(
-                              alignment: AlignmentDirectional(0.0, 0.0),
-                              child: FFButtonWidget(
-                                onPressed: () {
-                                  print('Button pressed ...');
-                                },
-                                text: 'Sign in with Google',
-                                icon: Icon(
-                                  Icons.add,
-                                  color: Colors.transparent,
-                                  size: 20.0,
-                                ),
-                                options: FFButtonOptions(
-                                  width: 230.0,
-                                  height: 44.0,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 8.0, 0.0),
-                                  color: Colors.white,
-                                  textStyle: GoogleFonts.getFont(
-                                    'Roboto',
-                                    color: Color(0xFF606060),
-                                    fontSize: 17.0,
-                                  ),
-                                  elevation: 4.0,
-                                  borderSide: BorderSide(
+                        child: GestureDetector(
+                          child: Stack(
+                            children: [
+                              Align(
+                                alignment: AlignmentDirectional(0.0, 0.0),
+                                child: FFButtonWidget(
+                                  text: 'Sign in with Google',
+                                  icon: Icon(
+                                    Icons.add,
                                     color: Colors.transparent,
-                                    width: 0.0,
+                                    size: 20.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(40.0),
+                                  options: FFButtonOptions(
+                                    width: 230.0,
+                                    height: 44.0,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 8.0, 0.0),
+                                    color: Colors.white,
+                                    textStyle: GoogleFonts.getFont(
+                                      'Roboto',
+                                      color: Color(0xFF606060),
+                                      fontSize: 17.0,
+                                    ),
+                                    elevation: 4.0,
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 0.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40.0),
+                                  ), onPressed: () async {
+                                  await signInWithGoogle();
+                                  context.goNamed('Main_page');
+                                },
                                 ),
                               ),
-                            ),
-                            Align(
-                              alignment: AlignmentDirectional(-0.83, 0.0),
-                              child: Container(
-                                width: 22.0,
-                                height: 22.0,
-                                clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Image.network(
-                                  'https://i0.wp.com/nanophorm.com/wp-content/uploads/2018/04/google-logo-icon-PNG-Transparent-Background.png?w=1000&ssl=1',
-                                  fit: BoxFit.contain,
+                              Align(
+                                alignment: AlignmentDirectional(-0.83, 0.0),
+                                child: Container(
+                                  width: 22.0,
+                                  height: 22.0,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Image.network(
+                                    'https://i0.wp.com/nanophorm.com/wp-content/uploads/2018/04/google-logo-icon-PNG-Transparent-Background.png?w=1000&ssl=1',
+                                    fit: BoxFit.contain,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -674,22 +677,14 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
   }
 
   Future<void> signInProcess(String email, String password)  async {
-    setState(() {
-      _loading = true;
-    });
-
     //Checking if is login or register
     try{
       await signInWithEmailAndPassword(email, password);
-
-      setState(() {
-        _loading = false;
-      });
       context.goNamed('Main_page');
 
       AnimatedSnackBar.material(
         'Successfully Logged In',
-        type: AnimatedSnackBarType.info,
+        type: AnimatedSnackBarType.success,
       ).show(context);
 
     }catch (error){
@@ -701,9 +696,49 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
   }
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-      final user = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+  }
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      //Triger the authentication flow
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+      //Obtain the auth details from the request
+      final GoogleSignInAuthentication googleAuth =
+      await googleUser!.authentication;
+      //Create a new credentials
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
+      //Sign in the user with the credentials.
+      await _auth.signInWithCredential(credential);
+      await saveuser(googleUser);
+
+      AnimatedSnackBar.material(
+        'Successfully Login in using Google Accout',
+        type: AnimatedSnackBarType.success,
+      ).show(context);
+    }catch (error){
+      AnimatedSnackBar.material(
+        "Something went wrong. Please check your Google Account and try again",
+        type: AnimatedSnackBarType.error,
+      ).show(context);
+    }
+    return null;
+  }
+
+  saveuser(GoogleSignInAccount googleSignIn)async {
+    _db.collection("Users").doc(googleSignIn.email)
+        .set(
+        {
+          "Name" : googleSignIn.displayName,
+          "HomeTown": "",
+          "Email" : googleSignIn.email,
+          "Age" : 0,
+          "Password" : "google sign in",
+          "ProfilePhoto" : googleSignIn.photoUrl
+      });
   }
 }
