@@ -1,3 +1,4 @@
+import '../pdf_view_page.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -314,7 +315,10 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
                                     0.0, 30.0, 0.0, 0.0),
                                 child: FFButtonWidget(
                                   onPressed: () {
-                                    print('Button pressed ...');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const PdfViewPageWidget()),
+                                    );
                                   },
                                   text: 'Submit',
                                   options: FFButtonOptions(
