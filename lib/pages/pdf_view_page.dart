@@ -8,13 +8,17 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 
 class PdfViewPageWidget extends StatefulWidget {
-  const PdfViewPageWidget({Key? key}) : super(key: key);
+  final link;
+  const PdfViewPageWidget(String this.link, {Key? key}) : super(key: key);
 
   @override
-  _PdfViewPageWidgetState createState() => _PdfViewPageWidgetState();
+  _PdfViewPageWidgetState createState() => _PdfViewPageWidgetState(link);
 }
 
 class _PdfViewPageWidgetState extends State<PdfViewPageWidget> {
+
+  _PdfViewPageWidgetState(this.link);
+  final String link;
 
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -94,7 +98,7 @@ class _PdfViewPageWidgetState extends State<PdfViewPageWidget> {
       ),
       body:  Container(
     child: SfPdfViewer.network(
-    'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf',
+        link,
         enableDoubleTapZooming: true,
       controller: _pdfViewerController,
     ))

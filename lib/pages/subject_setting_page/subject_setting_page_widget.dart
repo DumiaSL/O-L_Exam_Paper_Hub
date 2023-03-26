@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../pdf_view_page.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -12,11 +14,12 @@ import 'subject_setting_page_model.dart';
 export 'subject_setting_page_model.dart';
 
 class SubjectSettingPageWidget extends StatefulWidget {
-  const SubjectSettingPageWidget({Key? key}) : super(key: key);
+  final String subjectType;
+  const SubjectSettingPageWidget({Key? key, required this.subjectType}) : super(key: key);
 
   @override
   _SubjectSettingPageWidgetState createState() =>
-      _SubjectSettingPageWidgetState();
+      _SubjectSettingPageWidgetState(subjectType);
 }
 
 class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
@@ -25,10 +28,14 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
 
+  _SubjectSettingPageWidgetState(this.subjectType);
+  final String subjectType;
+
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => SubjectSettingPageModel());
+    getPaperLink();
   }
 
   @override
@@ -37,6 +44,23 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
 
     _unfocusNode.dispose();
     super.dispose();
+  }
+
+  bool isButtonSelect=false;
+  String subjectCategory="";
+  String link="";
+  Map<String, dynamic>? paper;
+
+  getPaperLink() async {
+    QuerySnapshot<Map<String, dynamic>> snap = await FirebaseFirestore.instance
+        .collection("Subject")
+        .doc(subjectType)
+        .collection("Sinhala")
+        .where('Year', isEqualTo: "2020")
+        .get();
+    List<QueryDocumentSnapshot<Map<String, dynamic>>>subject = snap.docs;
+    paper = subject[0].data();
+    link=paper?['Paper'] ?? '';
   }
 
   @override
@@ -114,7 +138,7 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 25.0, 0.0, 0.0),
                                 child: Text(
-                                  'Sinhala',
+                                  subjectType,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyText1
                                       .override(
@@ -317,7 +341,7 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const PdfViewPageWidget()),
+                                      MaterialPageRoute(builder: (context) =>  PdfViewPageWidget(link)),
                                     );
                                   },
                                   text: 'Submit',
@@ -366,7 +390,7 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
                             size: 30.0,
                           ),
                           onPressed: () async {
-                            context.pushNamed('Main_page');
+                            context.goNamed('Main_page');
                           },
                         ),
                       ),

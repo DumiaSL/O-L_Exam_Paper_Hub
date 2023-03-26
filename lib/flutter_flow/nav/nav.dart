@@ -64,7 +64,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'Subject_setting_page',
           path: '/subjectSettingPage',
-          builder: (context, params) => SubjectSettingPageWidget(),
+          builder: (context, params) => SubjectSettingPageWidget(subjectType: '',),
         ),
         FFRoute(
           name: 'Edit_profile_Page',
