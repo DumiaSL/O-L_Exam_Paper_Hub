@@ -1,3 +1,3 @@
 # OLExamPaperHub
 
-A new Flutter project.
+A Flutter project.
