@@ -7,3 +7,7 @@ The app is built using Flutter and Dart, two programming languages that are used
 One of the key features of the app is that it is fully automatic. This means that it is designed to automatically update the database with new papers as they become available. This ensures that users always have access to the latest papers.
 
 Overall, this app is a useful tool for Sri Lankan students and educators who want to access past O/L papers. With its automatic database updates and cross-platform compatibility, it offers a convenient and reliable way to study and prepare for exams.
+
+![Picsart_23-03-26_15-08-00-569](https://user-images.githubusercontent.com/90560618/227769478-f98fad9d-25d1-4f39-b807-d697441b8de9.jpg)
+![Picsart_23-03-26_15-48-58-304](https://user-images.githubusercontent.com/90560618/227769481-36f95dfa-27cc-40cd-8dce-ac521bc437a9.jpg)
+![Picsart_23-03-26_15-51-08-537](https://user-images.githubusercontent.com/90560618/227769482-7c30d944-90b0-4cdb-a208-d3d195c02aff.jpg)
