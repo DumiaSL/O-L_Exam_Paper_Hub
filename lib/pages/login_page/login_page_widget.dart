@@ -502,7 +502,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                 onPressed: () async {
                                   var email= _emailController.text;
                                   var password = _passwordController.text;
-                                  setState(() async {
+                                  setState(() {
                                     if (EmailValidator.validate(email)){
                                       _emailRedError = false;
                                     }else {
@@ -518,10 +518,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                     if (EmailValidator.validate(email) && password.length >= 8) {
                                       _passwordRedError=false;
                                       _emailRedError = false;
-
-                                      await signInProcess(email,password);
                                     }
                                   });
+                                  if (EmailValidator.validate(email) && password.length >= 8) await signInProcess(email,password);
                                 },
                                 text: 'Login',
                                 options: FFButtonOptions(

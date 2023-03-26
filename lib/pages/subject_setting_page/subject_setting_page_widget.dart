@@ -1,3 +1,4 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../pdf_view_page.dart';
@@ -35,7 +36,6 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => SubjectSettingPageModel());
-    getPaperLink();
   }
 
   @override
@@ -46,17 +46,21 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
     super.dispose();
   }
 
+  double opacityLevelSinhala = 1;
+  double opacityLevelEnglish = 1;
   bool isButtonSelect=false;
-  String subjectCategory="";
-  String link="";
+  late String subjectCategory;
+  late String link;
+  late var year;
+  List <String> option = [];
   Map<String, dynamic>? paper;
 
   getPaperLink() async {
     QuerySnapshot<Map<String, dynamic>> snap = await FirebaseFirestore.instance
         .collection("Subject")
         .doc(subjectType)
-        .collection("Sinhala")
-        .where('Year', isEqualTo: "2020")
+        .collection(subjectCategory)
+        .where('Year', isEqualTo: year)
         .get();
     List<QueryDocumentSnapshot<Map<String, dynamic>>>subject = snap.docs;
     paper = subject[0].data();
@@ -182,41 +186,50 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           20.0, 0.0, 5.0, 0.0),
-                                      child: FFButtonWidget(
-                                        onPressed: () {
-                                          print('Button pressed ...');
-                                        },
-                                        text: 'Sinhala Medium ',
-                                        options: FFButtonOptions(
-                                          width: 150.0,
-                                          height: 40.0,
-                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                          iconPadding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 0.0),
-                                          color: Color(0xFF3382E2),
-                                          textStyle: FlutterFlowTheme.of(context)
-                                              .subtitle2
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .subtitle2Family,
-                                                color: Colors.white,
-                                                fontSize: 14.0,
-                                                useGoogleFonts:
-                                                    GoogleFonts.asMap()
-                                                        .containsKey(
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .subtitle2Family),
-                                              ),
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                            width: 1.0,
+                                      child: Opacity(
+                                        opacity: opacityLevelSinhala,
+                                        child: FFButtonWidget(
+                                          onPressed: () async {
+                                            subjectCategory = "Sinhala";
+                                            setState(()  {
+                                              isButtonSelect = true;
+                                              opacityLevelEnglish =0.5;
+                                              opacityLevelSinhala = 1;
+                                            });
+                                            option= await getYearsList() ;
+                                          },
+                                          text: 'Sinhala Medium ',
+                                          options: FFButtonOptions(
+                                            width: 150.0,
+                                            height: 40.0,
+                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                            iconPadding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 0.0, 0.0, 0.0),
+                                            color: Color(0xFF3382E2),
+                                            textStyle: FlutterFlowTheme.of(context)
+                                                .subtitle2
+                                                .override(
+                                                  fontFamily:
+                                                      FlutterFlowTheme.of(context)
+                                                          .subtitle2Family,
+                                                  color: Colors.white,
+                                                  fontSize: 14.0,
+                                                  useGoogleFonts:
+                                                      GoogleFonts.asMap()
+                                                          .containsKey(
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .subtitle2Family),
+                                                ),
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(30.0),
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
                                         ),
                                       ),
                                     ),
@@ -229,41 +242,49 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           5.0, 0.0, 0.0, 0.0),
-                                      child: FFButtonWidget(
-                                        onPressed: () {
-                                          print('Button pressed ...');
-                                        },
-                                        text: 'English Medium ',
-                                        options: FFButtonOptions(
-                                          width: 150.0,
-                                          height: 40.0,
-                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                          iconPadding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 0.0),
-                                          color: Color(0xFF3382E2),
-                                          textStyle: FlutterFlowTheme.of(context)
-                                              .subtitle2
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .subtitle2Family,
-                                                color: Colors.white,
-                                                fontSize: 14.0,
-                                                useGoogleFonts:
-                                                    GoogleFonts.asMap()
-                                                        .containsKey(
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .subtitle2Family),
-                                              ),
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                            width: 1.0,
+                                      child: Opacity(
+                                        opacity: opacityLevelEnglish,
+                                        child: FFButtonWidget(
+                                          onPressed: () async {
+                                            subjectCategory = "English";
+                                            setState(() {
+                                              opacityLevelSinhala=0.5;
+                                              opacityLevelEnglish = 1;
+                                            });
+                                            option = await getYearsList() ;
+                                          },
+                                          text: 'English Medium ',
+                                          options: FFButtonOptions(
+                                            width: 150.0,
+                                            height: 40.0,
+                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                            iconPadding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 0.0, 0.0, 0.0),
+                                            color: Color(0xFF3382E2),
+                                            textStyle: FlutterFlowTheme.of(context)
+                                                .subtitle2
+                                                .override(
+                                                  fontFamily:
+                                                      FlutterFlowTheme.of(context)
+                                                          .subtitle2Family,
+                                                  color: Colors.white,
+                                                  fontSize: 14.0,
+                                                  useGoogleFonts:
+                                                      GoogleFonts.asMap()
+                                                          .containsKey(
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .subtitle2Family),
+                                                ),
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(30.0),
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
                                         ),
                                       ),
                                     ),
@@ -273,76 +294,80 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 3.0, 0.0, 0.0),
-                                child: Text(
-                                  'Please select subject Medium',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyText1
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodyText1Family,
-                                        color: Color(0xFFFA0707),
-                                        fontSize: 13.0,
-                                        fontWeight: FontWeight.w500,
-                                        useGoogleFonts: GoogleFonts.asMap()
-                                            .containsKey(
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyText1Family),
-                                      ),
+                                child: Visibility(
+                                  visible: !isButtonSelect,
+                                  child: Text(
+                                    'Please select subject Medium',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: FlutterFlowTheme.of(context)
+                                              .bodyText1Family,
+                                          color: Color(0xFFFA0707),
+                                          fontSize: 13.0,
+                                          fontWeight: FontWeight.w500,
+                                          useGoogleFonts: GoogleFonts.asMap()
+                                              .containsKey(
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1Family),
+                                        ),
+                                  ),
                                 ),
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 0.0),
-                                child: FlutterFlowDropDown<String>(
-                                  controller: _model.dropDownController ??=
-                                      FormFieldController<String>(null),
-                                  options: ['Option 1'],
-                                  onChanged: (val) =>
-                                      setState(() => _model.dropDownValue = val),
-                                  width: 200.0,
-                                  height: 50.0,
-                                  textStyle:
-                                      FlutterFlowTheme.of(context).bodyText1,
-                                  hintText: 'Please select year',
-                                  fillColor: Color(0xFF76B9FF),
-                                  elevation: 2.0,
-                                  borderColor: Colors.transparent,
-                                  borderWidth: 0.0,
-                                  borderRadius: 20.0,
-                                  margin: EdgeInsetsDirectional.fromSTEB(
-                                      12.0, 4.0, 12.0, 4.0),
-                                  hidesUnderline: true,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 10.0, 0.0, 0.0),
-                                child: Text(
-                                  'Please select year',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyText1
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodyText1Family,
-                                        color: Color(0xFFFA0707),
-                                        fontSize: 13.0,
-                                        fontWeight: FontWeight.w500,
-                                        useGoogleFonts: GoogleFonts.asMap()
-                                            .containsKey(
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyText1Family),
-                                      ),
+                                child: Visibility(
+                                  visible: isButtonSelect,
+                                  child: FlutterFlowDropDown<String>(
+                                    controller: _model.dropDownController ??=
+                                        FormFieldController<String>(null),
+                                    options: option,
+                                    onChanged: (val) =>
+                                        setState(() => year = val!),
+                                    width: 200.0,
+                                    height: 50.0,
+                                    textStyle:
+                                        FlutterFlowTheme.of(context).bodyText1,
+                                    hintText: 'Please select year',
+                                    fillColor: Color(0xFF76B9FF),
+                                    elevation: 2.0,
+                                    borderColor: Colors.transparent,
+                                    borderWidth: 0.0,
+                                    borderRadius: 20.0,
+                                    margin: EdgeInsetsDirectional.fromSTEB(
+                                        12.0, 4.0, 12.0, 4.0),
+                                    hidesUnderline: true,
+                                  ),
                                 ),
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 30.0, 0.0, 0.0),
                                 child: FFButtonWidget(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) =>  PdfViewPageWidget(link)),
-                                    );
+                                  onPressed: () async {
+                                    try
+                                    {
+                                      if (isButtonSelect){
+                                        await getPaperLink();
+                                        if (link.isEmpty){
+                                          AnimatedSnackBar.material(
+                                            "Something went wrong. Can't Find Paper !",
+                                            type: AnimatedSnackBarType.error,
+                                          ).show(context);
+                                        }else {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) =>  PdfViewPageWidget(link,(subjectType +"-"+ year))),
+                                          );
+                                        }
+                                      }
+                                    }catch(error){
+                                      AnimatedSnackBar.material(
+                                        "Something went wrong. Please try again",
+                                        type: AnimatedSnackBarType.error,
+                                      ).show(context);
+                                    }
                                   },
                                   text: 'Submit',
                                   options: FFButtonOptions(
@@ -403,5 +428,23 @@ class _SubjectSettingPageWidgetState extends State<SubjectSettingPageWidget> {
         ),
       ),
     );
+  }
+
+  Future<List<String>> getYearsList() async {
+    List<String> templist= [];
+    QuerySnapshot<Map<String, dynamic>> snap = await FirebaseFirestore.instance
+        .collection("Subject")
+        .doc(subjectType)
+        .collection(subjectCategory)
+        .get();
+    List<QueryDocumentSnapshot<Map<String, dynamic>>>subject = snap.docs;
+
+    for(var index = 0; index < subject.length; index++) {
+      templist.add(subject[index]['Year'] ?? '');
+    }
+    setState(() {
+      isButtonSelect = true;
+    });
+    return templist;
   }
 }

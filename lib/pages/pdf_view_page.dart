@@ -9,16 +9,18 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class PdfViewPageWidget extends StatefulWidget {
   final link;
-  const PdfViewPageWidget(String this.link, {Key? key}) : super(key: key);
+  final year;
+  const PdfViewPageWidget(String this.link, String this.year, {Key? key}) : super(key: key);
 
   @override
-  _PdfViewPageWidgetState createState() => _PdfViewPageWidgetState(link);
+  _PdfViewPageWidgetState createState() => _PdfViewPageWidgetState(link,year);
 }
 
 class _PdfViewPageWidgetState extends State<PdfViewPageWidget> {
 
-  _PdfViewPageWidgetState(this.link);
+  _PdfViewPageWidgetState(this.link, this.year);
   final String link;
+  final String year;
 
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -29,7 +31,6 @@ class _PdfViewPageWidgetState extends State<PdfViewPageWidget> {
   void initState() {
     _pdfViewerController = PdfViewerController();
     super.initState();
-
   }
 
   @override
@@ -43,9 +44,9 @@ class _PdfViewPageWidgetState extends State<PdfViewPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+      backgroundColor: Color(0xFF3382E2),
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+        backgroundColor: Color(0xFF3382E2),
         automaticallyImplyLeading: false,
         leading: FlutterFlowIconButton(
           borderColor: Colors.transparent,
@@ -62,7 +63,7 @@ class _PdfViewPageWidgetState extends State<PdfViewPageWidget> {
           },
         ),
         title: Text(
-          'Page Title',
+          year,
           style: FlutterFlowTheme.of(context).title2.override(
             fontFamily: FlutterFlowTheme.of(context).title2Family,
             color: Colors.white,

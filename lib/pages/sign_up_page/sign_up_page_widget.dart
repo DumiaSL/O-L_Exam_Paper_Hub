@@ -935,7 +935,6 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                       0.0, 25.0, 0.0, 30.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
-
                                       setState(() {
                                         if (EmailValidator.validate(_emailController.text)){
                                           _emailRedError = false;
@@ -974,10 +973,12 @@ class _SignUpPageWidgetState extends State<SignUpPageWidget> {
                                           _ageRedError=false;
                                           _hometownRedError = false;
                                           _fullnameRedError=false;
-                                          createAccountProcess(new UserModel(email: _emailController.text, fullname: _fullnameController.text, age: int.parse(_ageController.text),
-                                              hometown: _hometownController.text, password: _passwordController.text));
                                         }
                                       });
+                                      if ((EmailValidator.validate(_emailController.text)) && (_passwordController.text.length >= 8) && (_fullnameController.text.isNotEmpty)
+                                          && ((_ageController.text.isNotEmpty) && (int.parse(_ageController.text)>=10)) && (_hometownController.text.isNotEmpty))
+                                        await createAccountProcess(new UserModel(email: _emailController.text, fullname: _fullnameController.text, age: int.parse(_ageController.text),
+                                            hometown: _hometownController.text, password: _passwordController.text));
                                     },
                                     text: 'Login',
                                     options: FFButtonOptions(
