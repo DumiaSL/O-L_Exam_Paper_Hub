@@ -10,4 +10,5 @@ Overall, this app is a useful tool for Sri Lankan students and educators who wan
 
 ![Picsart_23-03-26_15-08-00-569](https://user-images.githubusercontent.com/90560618/227769478-f98fad9d-25d1-4f39-b807-d697441b8de9.jpg)
 ![Picsart_23-03-26_15-48-58-304](https://user-images.githubusercontent.com/90560618/227769481-36f95dfa-27cc-40cd-8dce-ac521bc437a9.jpg)
-![Picsart_23-03-26_15-51-08-537](https://user-images.githubusercontent.com/90560618/227769482-7c30d944-90b0-4cdb-a208-d3d195c02aff.jpg)
+![Picsart_23-03-26_15-53-39-455](https://user-images.githubusercontent.com/90560618/227769548-08b21310-d871-49d8-8134-cdd112f21a24.jpg)
+
