@@ -1,31 +1,9 @@
 # OLExamPaperHub
 
-A new Flutter project.
+The application is designed to provide Sri Lankan students and educators with access to past O/L papers. These papers are saved in an online database, which users can access through the app.
 
-## Getting Started
+The app is built using Flutter and Dart, two programming languages that are used to create cross-platform mobile applications. This means that the app can be used on both Android and iOS devices.
 
-FlutterFlow projects are built to run on the Flutter _stable_ release.
+One of the key features of the app is that it is fully automatic. This means that it is designed to automatically update the database with new papers as they become available. This ensures that users always have access to the latest papers.
 
-### IMPORTANT:
-
-For projects with Firestore integration, you must first run the following commands to ensure the project compiles:
-
-```
-flutter pub get
-flutter packages pub run build_runner build --delete-conflicting-outputs
-```
-
-This command creates the generated files that parse each Record from Firestore into a schema object.
-
-### Getting started continued:
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Overall, this app is a useful tool for Sri Lankan students and educators who want to access past O/L papers. With its automatic database updates and cross-platform compatibility, it offers a convenient and reliable way to study and prepare for exams.
