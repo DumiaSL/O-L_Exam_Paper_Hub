@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -121,8 +120,22 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                             shape: BoxShape.circle,
                           ),
                           child: Image.network(
-                            user?['ProfilePhoto'] ?? '',
+                           imageUrl(),
                             fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -421,4 +434,11 @@ class _MainPageWidgetState extends State<MainPageWidget> {
     await googleSign.signOut();
   }
 
+  String imageUrl() {
+    if((user?['ProfilePhoto'] ?? '').isEmpty){
+      return "https://firebasestorage.googleapis.com/v0/b/ol-exam-paper-hub.appspot.com/o/profile_avatar.jpg?alt=media&token=910c2450-d12d-4ce9-b461-df6c113908b8";
+    }else{
+      return user?['ProfilePhoto'] ?? '';
+    }
+  }
 }

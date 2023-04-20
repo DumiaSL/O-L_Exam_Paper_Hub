@@ -57,6 +57,7 @@ dependencies:
   email_validator: ^2.1.17
   animated_snack_bar: ^0.3.0
   material_dialogs: ^1.1.4
+  loader_overlay: ^2.1.0
 
 
 dev_dependencies:

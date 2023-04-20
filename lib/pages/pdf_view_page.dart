@@ -59,13 +59,13 @@ class _PdfViewPageWidgetState extends State<PdfViewPageWidget> {
             size: 30,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.of(context).pop();
           },
         ),
         title: Text(
           year,
           style: FlutterFlowTheme.of(context).title2.override(
-            fontFamily: FlutterFlowTheme.of(context).title2Family,
+            fontFamily: 'Montserrat',
             color: Colors.white,
             fontSize: 22,
             useGoogleFonts: GoogleFonts.asMap()

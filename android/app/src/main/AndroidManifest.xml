@@ -5,7 +5,7 @@
 
 
     <application
-        android:label="OLExamPaperHub"
+        android:label="O/L Exam Paper Hub"
         tools:replace="android:label"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">

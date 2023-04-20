@@ -57,7 +57,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
 
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+      backgroundColor: Color(0xFF3382E2),
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
@@ -697,6 +697,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
   Future<void> signInWithEmailAndPassword(String email, String password) async {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
   }
+
   Future<UserCredential?> signInWithGoogle() async {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn();

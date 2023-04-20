@@ -58,7 +58,7 @@ class _ForgetPasswordPageWidgetState extends State<ForgetPasswordPageWidget> {
 
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+      backgroundColor: Color(0xFF3382E2),
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
@@ -401,7 +401,7 @@ class _ForgetPasswordPageWidgetState extends State<ForgetPasswordPageWidget> {
               onPressed: () {
                 context.goNamed('Login_page');
               },
-              text: 'Ok',
+              text: 'ok',
               iconData: Icons.tag_faces_rounded,
               color: Colors.green,
               textStyle: TextStyle(color: Colors.white),
